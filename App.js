@@ -1,9 +1,7 @@
-import { StatusBar } from 'expo-status-bar';
-import reactDom from 'react-dom';
 import React, { useState, useEffect } from 'react';
 import * as Location from 'expo-location';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import { Fontisto } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 
 import {View, Text, StyleSheet, ScrollView, Dimensions, ActivityIndicator } from 'react-native';
 
@@ -42,9 +40,11 @@ export default function App() {
   useEffect(() => {
     getWeather();
   }, [])
+  
+  
 
   return (
-    <View style={style.container}>
+    <LinearGradient colors={["#ee9ca7", "#ffdde1"]} style={style.container}>
       <View style={style.city}>
         <Text style={style.cityName}>{city}</Text> 
       </View>
@@ -57,7 +57,7 @@ export default function App() {
       >
         {days.length == 0 
         ?(
-          <View style={style.day}>
+          <View style={style.indicator}>
           <ActivityIndicator size="large" color="gray" style={{marginTop:10}}/>
          </View>
         )
@@ -74,7 +74,7 @@ export default function App() {
               }}>
                 
             <Text style={style.temp}>{parseFloat(day.temp.day).toFixed(1)}°</Text>
-            <Fontisto name={icons[day.weather[0].main]} size={48} color="black" style={{marginRight:25, marginTop:-40}}/>
+            <Fontisto name={icons[day.weather[0].main]} size={48} color="gray" style={{marginRight:25, marginTop:-40}}/>
             </View>
             <Text style={style.desc}>{day.weather[0].main}</Text>
             <Text style={style.tinyDesc}>{day.weather[0].description}</Text>
@@ -82,14 +82,14 @@ export default function App() {
          )
         )}
       </ScrollView>
-    </View>
+    </LinearGradient>
   );
 }
 
 const style = StyleSheet.create({
    container : {
     flex:1, 
-    backgroundColor: '#AFEEEE'
+    //backgroundColor: '#AFEEEE'
    },
 
    city : {
@@ -102,6 +102,7 @@ const style = StyleSheet.create({
     marginTop: 20,
     fontSize: 68,
     fontWeight: '700',
+    color:'white'
    },
 
    weather : {
@@ -110,27 +111,35 @@ const style = StyleSheet.create({
    day : {
     width:SCREEN_WIDTH,
     alignItems : 'flex-start',
-    paddingHorizontal : 20 
+    paddingHorizontal : 30 
+   },
+
+   indicator : {
+    width:SCREEN_WIDTH,
+    alignItems : 'center',
    },
 
    date : {
     fontSize : 25,
+    color:'white'
    },
 
    temp : {
     marginTop: 0,
     fontSize: 80,
-    fontWeight: '600'
+    fontWeight: '600',
+    color:'white'
    },
 
    desc : {
     marginTop: -10,
-
+    color:'white',
     fontSize : 30,
    },
 
    tinyDesc : {
     marginTop: -2,
     fontSize : 20,
+    color:'white'
    }
 })
