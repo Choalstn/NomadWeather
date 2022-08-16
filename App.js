@@ -2,12 +2,24 @@ import { StatusBar } from 'expo-status-bar';
 import reactDom from 'react-dom';
 import React, { useState, useEffect } from 'react';
 import * as Location from 'expo-location';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { Fontisto } from '@expo/vector-icons';
 
 import {View, Text, StyleSheet, ScrollView, Dimensions, ActivityIndicator } from 'react-native';
 
 const {width : SCREEN_WIDTH} = Dimensions.get('window');
 
 const API_KEY  = '00f28591d749f7f01ce6ce18cb876c1f';
+
+const icons = {
+  "Clouds" : "cloudy",
+  "Clear" : "day-sunny",
+  "Rain" : "rains",
+  "Snow" : "snow",
+  "Drizzle" : "rain",
+  "Thunderstorm" : "lightnings",
+  "Atmosphere" : "cloudy-gusts",
+}
 
 export default function App() {
   const [city, setCity] = useState("Loading...");
@@ -53,7 +65,17 @@ export default function App() {
           days.map((day, index) => 
           <View style={style.day} key={index}>
             <Text style={style.date}>{new Date(day.dt * 1000).toString().substring(0, 10)}</Text>
+            <View 
+            style={{
+              flexDirection:"row",
+              alignItems:'center',
+              width:"100%",
+              justifyContent : "space-between"
+              }}>
+                
             <Text style={style.temp}>{parseFloat(day.temp.day).toFixed(1)}°</Text>
+            <Fontisto name={icons[day.weather[0].main]} size={48} color="black" style={{marginRight:25, marginTop:-40}}/>
+            </View>
             <Text style={style.desc}>{day.weather[0].main}</Text>
             <Text style={style.tinyDesc}>{day.weather[0].description}</Text>
           </View>
@@ -87,25 +109,28 @@ const style = StyleSheet.create({
 
    day : {
     width:SCREEN_WIDTH,
-    alignItems : 'center', 
+    alignItems : 'flex-start',
+    paddingHorizontal : 20 
    },
 
    date : {
-    fontSize : 30
+    fontSize : 25,
    },
 
    temp : {
-    marginTop: 40,
+    marginTop: 0,
     fontSize: 80,
-    fontWeight: '500'
+    fontWeight: '600'
    },
 
    desc : {
-    marginTop: 20,
-    fontSize : 45,
+    marginTop: -10,
+
+    fontSize : 30,
    },
 
    tinyDesc : {
+    marginTop: -2,
     fontSize : 20,
    }
 })
